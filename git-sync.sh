@@ -26,7 +26,7 @@ cp ~/.vimrc ./
 [[ ! -d ./.xmonad ]] && mkdir ./.xmonad
 cp ~/.xmonad/xmonad.hs ./.xmonad
 [[ ! -d ./.xmonad/lib ]] && mkdir ./.xmonad/lib
-cp -R ~/.xmonad/lib/*.hs ./.xmonad/lib
+cp -R ~/.xmonad/lib/* ./.xmonad/lib
 # Xorg
 cp ~/.Xresources ./
 # Zathura
