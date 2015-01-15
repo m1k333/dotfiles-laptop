@@ -27,7 +27,7 @@ cp ~/.vimrc ./
 cp ~/.xmonad/xmonad.hs ./.xmonad
 [[ ! -d ./.xmonad/lib ]] && mkdir ./.xmonad/lib
 cp -R ~/.xmonad/lib/* ./.xmonad/lib
-rm ./.xmonad/lib/XMonad/Layout/BinarySpaceParition.{hi,o}
+rm ./.xmonad/lib/XMonad/Layout/BinarySpacePartition.{hi,o}
 # Xorg
 cp ~/.Xresources ./
 # Zathura
