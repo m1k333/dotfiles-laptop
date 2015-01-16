@@ -67,7 +67,7 @@ myXPConfig = defaultXPConfig
     , fgColor = "grey"
     , bgHLight = "black"
     , fgHLight = "green"
-    , borderColor = "red"
+    , borderColor = "green"
     , promptBorderWidth = 0
     , height = 22
     , historyFilter = deleteConsecutive
@@ -76,7 +76,7 @@ myXPConfig = defaultXPConfig
 --Layout
 --
 myLayout =
-    (renamed [Replace "BSP"] $ emptyBSP) |||
+    (renamed [Replace "Tree"] $ emptyBSP) |||
     (renamed [Replace "Tile"] $ ResizableTall 1 (3/100) (1/2) []) |||
     (Full)
 
@@ -87,7 +87,7 @@ myStartupHook = do
     spawn "setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp"
     --Display and appearance
     spawn "feh --no-fehbg --bg-fill ~/.xmonad/wallpaper*"
-    spawn "compton -b"
+    spawn "xsetroot -cursor_name left_ptr"
     spawn "(xset -b) && (xset s 3600) && (xset dpms 7200 7200 7200)"
     spawn "xrdb -merge ~/.Xresources"
     --Music
