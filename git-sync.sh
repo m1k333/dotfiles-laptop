@@ -5,6 +5,8 @@ echo "Starting sync..."
 [[ ! -d ./.config ]] && mkdir ./.config
 
 ## Copy files
+#archey3
+cp ~/.archey3.cfg ./
 # Emacs
 [[ ! -d ./.emacs.d ]] && mkdir ./.emacs.d
 cp ~/.emacs.d/init.el ./.emacs.d
@@ -26,11 +28,10 @@ cp ~/.vimrc ./
 [[ ! -d ./.xmonad ]] && mkdir ./.xmonad
 cp ~/.xmonad/xmonad.hs ./.xmonad
 cp ~/.xmonad/xmobar.hs ./.xmonad
-[[ ! -d ./.xmonad/lib ]] && mkdir ./.xmonad/lib
-cp -R ~/.xmonad/lib/* ./.xmonad/lib
-rm ./.xmonad/lib/XMonad/Layout/BinarySpacePartition.{hi,o}
+[[ ! -d ./.xmonad/lib/XMonad/Layout ]] && mkdir -p ./.xmonad/lib/XMonad/Layout
+cp ~/.xmonad/lib/XMonad/Layout/BinarySpaceParition.hs ./.xmonad/lib/XMonad/Layout
 # Xorg
-cp ~/.Xresources ./
+cp ~/.Xdefaults ./
 cp ~/.xinitrc ./
 # Zathura
 [[ ! -d ./.config/zathura ]] && mkdir ./.config/zathura

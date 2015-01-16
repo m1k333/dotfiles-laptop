@@ -13,19 +13,19 @@ Config { font = "xft:Terminus:bold:size=14"
        , persistent = True
        , commands = [ Run StdinReader
                     , Run Battery [
-                                    "--template" , "<acstatus>"
-                                  , "--Low"      , "20"
-                                  , "--High"     , "50"
-                                  , "--low"      , "red"
-                                  , "--normal"   , "yellow"
-                                  , "--high"     , "green"
+                                    "--template", "<acstatus>"
+                                  , "--Low"     , "20"
+                                  , "--High"    , "50"
+                                  , "--low"     , "red"
+                                  , "--normal"  , "yellow"
+                                  , "--high"    , "green"
                                   , "--"
-                                  , "-o"   , "<left>%"
-                                  , "-O"   , "Charging"
-                                  , "-i"   , "Charged"
+                                  , "-o"        , "<left>%"
+                                  , "-O"        , "Charging"
+                                  , "-i"        , "Charged"
                                   ] 50
 
-                    , Run Date "%F %T" "date" 10
+                    , Run Date "%F %H:%M" "date" 50
                     ]
        }
 

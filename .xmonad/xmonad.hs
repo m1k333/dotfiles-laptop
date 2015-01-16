@@ -1,21 +1,24 @@
 --Imports
 --
---Xmonad
+--XMonad
 import XMonad
+import qualified XMonad.StackSet as W
 --System
 import System.Exit
 import System.IO
---Utilities
+--Data
 import qualified Data.Map as M
-import qualified XMonad.StackSet as W
 import Data.Ratio ((%))
+--Util
 import XMonad.Util.Font
---Prompts
+import XMonad.Util.Cursor
+--Prompt
 import XMonad.Prompt
+import XMonad.Prompt.RunOrRaise
 import XMonad.Prompt.Shell
---Layouts
+import XMonad.Prompt.Ssh
+--Layout
 import XMonad.Layout.BinarySpacePartition
-import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Renamed
 import XMonad.Layout.ResizableTile
@@ -34,16 +37,18 @@ myKeys x = foldr (uncurry M.insert) (delKeys x) (toAdd x)
 --Remove some of the default key bindings
 toRemove XConfig {modMask = modm} =
     [ (modm, xK_q)
-    --, (etc.)
+    --, (etc., etc.)
     ]
 --Add more key bindings
 toAdd XConfig {modMask = modm} =
     --Prompt
     [ ((modm, xK_p), shellPrompt myXPConfig)
-    --ResizableTile expand and shrink
+    , ((modm .|. shiftMask, xK_p), runOrRaisePrompt myXPConfig)
+    , ((modm .|. controlMask, xK_p), sshPrompt myXPConfig)
+    --Tile/ResizableTile expand and shrink
     , ((modm, xK_a), sendMessage MirrorShrink)
     , ((modm, xK_z), sendMessage MirrorExpand)
-    --BSP controls
+    --Tree/BSP controls
     , ((modm .|. controlMask, xK_l), sendMessage $ ExpandTowards R)
     , ((modm .|. controlMask, xK_h), sendMessage $ ExpandTowards L)
     , ((modm .|. controlMask, xK_j), sendMessage $ ExpandTowards D)
@@ -59,7 +64,6 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 --Prompt
 --
-myXPConfig :: XPConfig
 myXPConfig = defaultXPConfig
     { font = "xft:Terminus:bold:size=14"
     , position = Top
@@ -75,38 +79,41 @@ myXPConfig = defaultXPConfig
 
 --Layout
 --
-myLayout =
-    (renamed [Replace "Tree"] $ emptyBSP) |||
+myLayout = avoidStruts $
     (renamed [Replace "Tile"] $ ResizableTall 1 (3/100) (1/2) []) |||
+    (renamed [Replace "Tree"] $ emptyBSP) |||
     (Full)
 
 --Startup
 myStartupHook = do
-    --Stuff
+    --Behaviour
     setWMName "LG3D"
     spawn "setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp"
     --Display and appearance
+    setDefaultCursor xC_left_ptr
     spawn "feh --no-fehbg --bg-fill ~/.xmonad/wallpaper*"
-    spawn "xsetroot -cursor_name left_ptr"
-    spawn "(xset -b) && (xset s 3600) && (xset dpms 7200 7200 7200)"
-    spawn "xrdb -merge ~/.Xresources"
-    --Music
+    spawn "xset -b s 3600 dpms 7200 7200 7200"
+    --Apps
+    spawn "urxvtd -q -o -f"
     spawn "mpd"
+
+--Config
+--
+myConfig = ewmh $ defaultConfig
+    --Appearance
+    { borderWidth = 1
+    , normalBorderColor = "grey40"
+    , focusedBorderColor = "red"
+    --Keys
+    , terminal = "urxvtc"
+    , modMask = mod4Mask
+    , keys = myKeys
+    --Hooks
+    , startupHook = myStartupHook
+    , layoutHook = myLayout
+    , handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
+    }
 
 --Main
 --
-main = xmonad =<< statusBar "xmobar ~/.xmonad/xmobar.hs" xmobarPP toggleStrutsKey
-    (ewmh $ defaultConfig
-        --Appearance
-        { borderWidth = 1
-        , normalBorderColor = "darkgrey"
-        , focusedBorderColor = "red"
-        --Keys
-        , terminal = "urxvt"
-        , modMask = mod4Mask
-        , keys = myKeys
-        --Hooks
-        , layoutHook = avoidStruts $ myLayout
-        , handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
-        , startupHook = myStartupHook
-        })
+main = xmonad =<< statusBar "xmobar ~/.xmonad/xmobar.hs" xmobarPP toggleStrutsKey myConfig

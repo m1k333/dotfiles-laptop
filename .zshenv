@@ -17,7 +17,7 @@ HISTFILE=~/.zhistory
 
 export PAGER=less
 export EDITOR=vim
-export BROWSER=links
+export BROWSER=firefox
 
 #---------------#
 # file settings #
