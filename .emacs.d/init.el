@@ -1,32 +1,30 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Package Repositories ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;Package Repositories
+;;
 
-;;; Initialize package extension
+;;Initialize package extension
 (package-initialize)
 
-;;; Package repositories
+;;Package repositories
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-;;;;;;;;;;;;;;
-;; Settings ;;
-;;;;;;;;;;;;;;
+;;
+;;Settings
+;;
 
-;;; Apropos
+;;Apropos
 (setq apropos-do-all t)
 
-;;; Auto-compression
+;;Auto-compression
 (auto-compression-mode t)
 
-;;; Backups
+;;Backups
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
 
-;;; Buffers
-
-;; Suppress nonexistant file warnings
+;;Buffers
+;;Suppress nonexistant file warnings
 (setq confirm-nonexistent-file-or-buffer nil)
-
-;; Allow creation of directories when finding files
+;;Allow creation of directories when finding files
 (defun create-non-existent-directory ()
   "Check whether a given file's parent directories exist; if they do not, offer to create them."
   (let ((parent-directory (file-name-directory buffer-file-name)))
@@ -35,69 +33,69 @@
       (make-directory parent-directory t))))
 (add-to-list 'find-file-not-found-functions #'create-non-existent-directory)
 
-;;; Diary
+;;Diary
 (setq diary-file "~/.emacs.d/diary")
 
-;;; GUI settings
+;;GUI settings
 (unless window-system (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 (if (fboundp 'transient-mark-mode) (transient-mark-mode 0))
 
-;;; Ido mode
+;;Ido mode
 (setq ido-enable-flex-matching t
       ido-everywhere t)
 (ido-mode 1)
 
-;;; Mini-Buffer
+;;Mini-Buffer
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;;; Mode line
+;;Mode line
 (column-number-mode t)
 (show-paren-mode t)
 (size-indication-mode t)
 
-;;; Personal information
+;;Personal information
 (setq user-full-name "Michael Richer"
       user-mail-address "msricher1993@gmail.com")
 
-;;; Saveplace
+;;Saveplace
 (require 'saveplace)
 (setq save-place-file (concat user-emacs-directory "places"))
 (setq-default save-place t)
 
-;;; Scratch
+;;Scratch
 (setq initial-scratch-message ";; *scratch*\n\n")
 
-;;; SLIME
+;;SLIME
 (setq inferior-lisp-program "/usr/bin/sbcl")
 
-;;; Splash screen
+;;Splash screen
 (setq inhibit-splash-screen t)
 
-;;; Syntax highlighting
+;;Syntax highlighting
 (global-font-lock-mode t)
 (show-paren-mode 1)
 
-;;; Tabs, whitespace, etc.
+;;Tabs, whitespace, etc.
 (setq-default indent-tabs-mode nil)
 (setq require-final-newline t)
 
-;;; Uniquify
+;;Uniquify
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-;;; Xorg settings
+;;Xorg settings
 (setq x-select-enable-clipboard t
       x-select-enable-primary t
       mouse-yank-at-point t
       save-interprogram-paste-before-kill t)
 
-;;;;;;;;;;;;;;;;;
-;; Keybindings ;;
-;;;;;;;;;;;;;;;;;
+;;
+;;Keybindings
+;;
 
-;;; From "Better Defaults"
+;;From "Better Defaults"
 (global-set-key (kbd "M-/") 'hippie-expand)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -105,15 +103,15 @@
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;;; backward-kill-line
+;;backward-kill-line
 (global-set-key (kbd "C-<backspace>") (lambda ()
                                         (interactive)
                                         (kill-line 0)
                                         (indent-according-to-mode)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Custom-set variables and faces ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;Custom-set variables and faces
+;;
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

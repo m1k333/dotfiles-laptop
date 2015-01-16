@@ -1,4 +1,4 @@
-!!Appearance!!
+!Appearance
 URxvt.font:           xft:Terminus:size=14:antialiasing=true
 URxvt.boldFont:       xft:Terminus:bold:size=14:antialiasing=true
 URxvt.internalBorder: 8
@@ -9,7 +9,7 @@ URxvt.cursorColor:    #F0F0F0
 URxvt.cursorColor2:   #000000
 URxvt.color12:        #5C5CFF
 
-!!Behaviours!!
+!Behaviours
 URxvt.saveLines:       30000
 URxvt.scrollBar:       false
 URxvt.urgentonBell:    true

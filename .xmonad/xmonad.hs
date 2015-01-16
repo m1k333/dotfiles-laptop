@@ -86,16 +86,10 @@ myLayout = avoidStruts $
 
 --Startup
 myStartupHook = do
-    --Behaviour
     setWMName "LG3D"
-    spawn "setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp"
-    --Display and appearance
     setDefaultCursor xC_left_ptr
     spawn "feh --no-fehbg --bg-fill ~/.xmonad/wallpaper*"
-    spawn "xset -b s 3600 dpms 7200 7200 7200"
-    --Apps
     spawn "urxvtd -q -o -f"
-    spawn "mpd"
 
 --Config
 --
