@@ -29,7 +29,7 @@ cp ~/.vimrc ./
 cp ~/.xmonad/xmonad.hs ./.xmonad
 cp ~/.xmonad/xmobar.hs ./.xmonad
 [[ ! -d ./.xmonad/lib/XMonad/Layout ]] && mkdir -p ./.xmonad/lib/XMonad/Layout
-cp ~/.xmonad/lib/XMonad/Layout/BinarySpaceParition.hs ./.xmonad/lib/XMonad/Layout
+cp ~/.xmonad/lib/XMonad/Layout/BinarySpacePartition.hs ./.xmonad/lib/XMonad/Layout
 # Xorg
 cp ~/.Xdefaults ./
 cp ~/.xinitrc ./
