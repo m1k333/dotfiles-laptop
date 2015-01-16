@@ -31,7 +31,7 @@ cp -R ~/.xmonad/lib/* ./.xmonad/lib
 rm ./.xmonad/lib/XMonad/Layout/BinarySpacePartition.{hi,o}
 # Xorg
 cp ~/.Xresources ./
-cp ~/xinitrc ./
+cp ~/.xinitrc ./
 # Zathura
 [[ ! -d ./.config/zathura ]] && mkdir ./.config/zathura
 cp ~/.config/zathura/zathurarc ./.config/zathura
