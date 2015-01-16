@@ -25,7 +25,7 @@ cp ~/.vimrc ./
 # XMonad
 [[ ! -d ./.xmonad ]] && mkdir ./.xmonad
 cp ~/.xmonad/xmonad.hs ./.xmonad
-cp ~/.xmobarrc ./.xmobarrc
+cp ~/.xmonad/xmobar.hs ./.xmonad
 [[ ! -d ./.xmonad/lib ]] && mkdir ./.xmonad/lib
 cp -R ~/.xmonad/lib/* ./.xmonad/lib
 rm ./.xmonad/lib/XMonad/Layout/BinarySpacePartition.{hi,o}

@@ -1,10 +1,7 @@
-Config {
-         font = "xft:Terminus:size=12:bold:antialias=true"
+Config { font = "xft:Terminus:bold:size=14"
        , bgColor = "black"
-       , fgColor = "#ABABAB"
+       , fgColor = "grey"
        , position = Top
-       , border = NoBorder
-       , borderColor = "#646464"
        , sepChar = "%"
        , alignSep = "}{"
        , template = " %StdinReader% }{ %battery% : %date% "
@@ -14,14 +11,13 @@ Config {
        , overrideRedirect = True
        , pickBroadest = False
        , persistent = True
-       , commands = [
-                      Run StdinReader
+       , commands = [ Run StdinReader
                     , Run Battery [
                                     "--template" , "<acstatus>"
-                                  , "--Low"      , "20"        -- units: %
-                                  , "--High"     , "70"        -- units: %
+                                  , "--Low"      , "20"
+                                  , "--High"     , "50"
                                   , "--low"      , "red"
-                                  , "--normal"   , "orange"
+                                  , "--normal"   , "yellow"
                                   , "--high"     , "green"
                                   , "--"
                                   , "-o"   , "<left>%"
