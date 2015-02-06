@@ -7,9 +7,14 @@ echo "Starting sync..."
 ## Copy files
 #archey3
 cp ~/.archey3.cfg ./
-# Emacs
-[[ ! -d ./.emacs.d ]] && mkdir ./.emacs.d
-cp ~/.emacs.d/init.el ./.emacs.d
+#BSPWM
+[[ ! -d ./.config/bspwm ]] && mkdir ./.config/bspwm
+cp ~/.config/bspwm/bspwmrc ./.config/bspwm
+cp ~/.config/bspwm/dmenu ./.config/bspwm
+cp ~/.config/bspwm/panel ./.config/bspwm
+cp ~/.config/bspwm/panel_bar ./.config/bspwm
+cp ~/.config/bspwm/panel_profile ./.config/bspwm
+cp ~/.config/bspwm/sxhkdrc ./.config/bspwm
 # Git
 cp ~/.gitconfig ./
 # MPD
@@ -24,12 +29,6 @@ cp ~/.rtorrent.rc ./
 cp -R ~/.scripts ./
 # Vim
 cp ~/.vimrc ./
-# XMonad
-[[ ! -d ./.xmonad ]] && mkdir ./.xmonad
-cp ~/.xmonad/xmonad.hs ./.xmonad
-cp ~/.xmonad/xmobar.hs ./.xmonad
-[[ ! -d ./.xmonad/lib/XMonad/Layout ]] && mkdir -p ./.xmonad/lib/XMonad/Layout
-cp ~/.xmonad/lib/XMonad/Layout/BinarySpacePartition.hs ./.xmonad/lib/XMonad/Layout
 # Xorg
 cp ~/.Xdefaults ./
 cp ~/.xinitrc ./

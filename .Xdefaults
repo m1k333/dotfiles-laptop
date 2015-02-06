@@ -1,6 +1,6 @@
 !Appearance
-URxvt.font:           xft:Terminus:size=14:antialiasing=true
-URxvt.boldFont:       xft:Terminus:bold:size=14:antialiasing=true
+URxvt.font:           xft:Terminus:size=12
+URxvt.boldFont:       xft:Terminus:bold:size=12
 URxvt.internalBorder: 8
 URxvt.externalBorder: 0
 URxvt.background:     #000000

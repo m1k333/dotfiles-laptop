@@ -12,5 +12,5 @@ fi
 setxkbmap -option ctrl:nocaps -option terminate:ctrl_alt_bksp
 xset -b s 3600 dpms 7200 7200 7200
 
-#Run XMonad
-exec xmonad
+#Run window manager
+(sxhkd -c ~/.config/bspwm/sxhkdrc &) && exec bspwm
