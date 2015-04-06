@@ -1,16 +1,20 @@
 #General options
 #
 export XAUTHORITY=$HOME/.Xauthority
-setopt notify
-ulimit -c 0
+setopt interactivecomments multios notify nobeep
 
-#Enter interactive mode after running a command
+#Autocompletion
 #
-if [[ $1 == eval ]]; then
-   "$@"
-   set --
-fi
-alias zshi='zsh -is eval'
+autoload -Uz compinit && compinit
+compinit -d $HOME/.zcompdump
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt completealiases correct extendedglob globdots nocaseglob
+
+#Dirstack
+#
+DIRSTACKSIZE=10
+setopt autocd autopushd pushdminus pushdsilent pushdtohome
 
 #Editor
 #
@@ -27,40 +31,29 @@ bindkey '^G' what-cursor-position
 
 #History
 #
-HISTSIZE=30000
-SAVEHIST=30000
-setopt appendhistory
-setopt HIST_IGNORE_DUPS
+export HISTSIZE=1000
+export SAVEHIST=$HISTSIZE
+setopt histignoredups histignorespace histsavenodups sharehistory
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 
-#Autocompletion
-#
-autoload -Uz compinit && compinit
-compinit -d $HOME/.zcompdump
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-setopt extendedglob
-setopt completealiases
-setopt no_case_glob
 
 #Prompt
 #
-setopt prompt_subst
-hash0="%#"
+phashD="%#"
 dirind="[%~]-"
 
 precmd()
 {
-     phash="${hash0}"
-     PS1="${dirind}${phash} "
+     phashF="${phashD}"
+     PS1="${dirind}${phashF} "
 }
 
 zle-keymap-select()
 {
-    phash="${hash0}"
-    [[ $KEYMAP = vicmd ]] && phash="/"
-    PS1="${dirind}${phash} "
+    phashF="${phashD}"
+    [[ $KEYMAP = vicmd ]] && phashF="/"
+    PS1="${dirind}${phashF} "
     () { return $__prompt_status }
     zle reset-prompt
 }
@@ -77,7 +70,6 @@ alias ls='ls -p --color=auto --group-directories-first'
 alias ll='ls -ahlp --color=auto --group-directories-first'
 alias la='ls -ap --color=auto --group-directories-first'
 alias -g grep='grep --color=auto'
-alias ..='cd ..'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
@@ -86,10 +78,6 @@ alias su='su -'
 alias sudo='sudo -E'
 alias gksu='gksu -k'
 alias gksudo='gksudo -k'
-
-alias reboot='systemctl reboot'
-alias poweroff='systemctl poweroff'
-alias suspend='systemctl suspend'
 
 alias tmat='tmux attach'
 alias rtorrent='cd ~ && rtorrent'

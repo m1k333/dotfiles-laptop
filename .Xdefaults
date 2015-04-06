@@ -4,8 +4,8 @@ URxvt.boldFont:       xft:Terminus:bold:size=12
 URxvt.internalBorder: 8
 URxvt.externalBorder: 0
 URxvt.background:     #000000
-URxvt.foreground:     #F0F0F0
-URxvt.cursorColor:    #F0F0F0
+URxvt.foreground:     #FFFFFF
+URxvt.cursorColor:    #FFFFFF
 URxvt.cursorColor2:   #000000
 URxvt.color12:        #5C5CFF
 
