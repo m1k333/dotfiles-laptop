@@ -104,11 +104,10 @@ super + Escape
     pkill -x sxhkd && sxhkd -c ~/.config/bspwm/sxhkdrc
 
 XF86AudioRaiseVolume
-    pactl set-sink-volume 0 -- +2%
-
+    amixer set Master 4%+
 
 XF86AudioLowerVolume
-    pactl set-sink-volume 0 -- -2%
+    amixer set Master 4%-
 
 XF86AudioMute
-    pactl set-sink-mute 0 toggle
+    amixer set Master toggle

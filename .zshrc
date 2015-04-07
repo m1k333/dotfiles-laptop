@@ -31,6 +31,7 @@ bindkey '^G' what-cursor-position
 
 #History
 #
+export HISTFILE=$HOME/.zhistory
 export HISTSIZE=1000
 export SAVEHIST=$HISTSIZE
 setopt histignoredups histignorespace histsavenodups sharehistory

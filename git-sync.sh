@@ -17,12 +17,6 @@ cp ~/.config/bspwm/panel_profile ./.config/bspwm
 cp ~/.config/bspwm/sxhkdrc ./.config/bspwm
 # Git
 cp ~/.gitconfig ./
-# MPD
-[[ ! -d ./.mpd ]] && mkdir ./.mpd
-cp ~/.mpd/mpd.conf ./.mpd
-# NCMPCPP
-[[ ! -d ./.ncmpcpp ]] && mkdir ./.ncmpcpp
-cp ~/.ncmpcpp/config ./.ncmpcpp
 # rTorrent
 cp ~/.rtorrent.rc ./
 # Scripts

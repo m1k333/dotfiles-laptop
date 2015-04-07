@@ -6,8 +6,6 @@ URxvt.externalBorder: 0
 URxvt.background:     #000000
 URxvt.foreground:     #FFFFFF
 URxvt.cursorColor:    #FFFFFF
-URxvt.cursorColor2:   #000000
-URxvt.color12:        #5C5CFF
 
 !Behaviours
 URxvt.saveLines:       30000

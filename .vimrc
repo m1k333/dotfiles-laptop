@@ -10,11 +10,17 @@ else
    set bg=dark
 endif
 
-"Say beep again motherfucker
+"Auto-Read
+set autoread
+
+"Beeping (off!!!)
 set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
+
+"Encoding
+set encoding=utf-8
 
 "Filetype functionality
 filetype on
@@ -29,6 +35,9 @@ autocmd FileType fortran setlocal tabstop=6 shiftwidth=6
 "Line and column numbers
 set ruler
 set number
+
+"Macros
+set lazyredraw
 
 "Mouse
 set mouse=a
@@ -45,17 +54,20 @@ set smartcase
 set ignorecase
 set magic
 
-"Syntax highlighting
-syntax on
-set showmatch
-set mat=2
-
 "Spell-checking
-set spelllang=en_ca
+set spelllang=en_us
+
+"Startup
+set shortmess=atI
 
 "Status Line
 set laststatus=2
 set statusline =./%f%m%r%h%w\ type:%Y%<%=\ %p%%\ (%LL)\ (%04l,%04v)
+
+"Syntax highlighting
+syntax on
+set showmatch
+set mat=2
 
 "Tabs and whitespace
 set list
