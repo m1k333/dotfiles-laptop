@@ -17,6 +17,14 @@ cp ~/.config/bspwm/panel_profile ./.config/bspwm
 cp ~/.config/bspwm/sxhkdrc ./.config/bspwm
 # Git
 cp ~/.gitconfig ./
+#MPD
+[[ ! -d ./.config/mpd ]] && mkdir ./.config/mpd
+[[ ! -d ./.config/mpd/playlists ]] && mkdir ./.config/mpd/playlists
+cp ~/.config/mpd/mpd.conf ./.config/mpd
+touch ./.config/mpd/{database,log,pid,state,sticker.sql}
+#NCMPCPP
+[[ ! -d ./.ncmpcpp ]] && mkdir ./.ncmpcpp
+cp ~/.ncmpcpp/config ./.ncmpcpp
 # rTorrent
 cp ~/.rtorrent.rc ./
 # Scripts

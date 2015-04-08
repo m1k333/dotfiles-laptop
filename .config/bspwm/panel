@@ -19,6 +19,6 @@ battery -n 1 -s -f 'B (%d%%%%) ' > "$PANEL_FIFO" &
 essid -s -w wlp2s0 -f 'E %s ' > "$PANEL_FIFO" &
 clock -s -i 1 -f 'C %F %H:%M ' > "$PANEL_FIFO" &
 
-cat "$PANEL_FIFO" | ~/.config/bspwm/panel_bar | bar-aint-recursive -g x$PANEL_HEIGHT -f "$PANEL_FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
+cat "$PANEL_FIFO" | ~/.config/bspwm/panel_bar | lemonbar -g x$PANEL_HEIGHT -f "$PANEL_FONT_FAMILY" -F "$COLOR_FOREGROUND" -B "$COLOR_BACKGROUND" &
 
 wait
