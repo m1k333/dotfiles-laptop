@@ -15,6 +15,9 @@ cp ~/.config/bspwm/panel ./.config/bspwm
 cp ~/.config/bspwm/panel_bar ./.config/bspwm
 cp ~/.config/bspwm/panel_profile ./.config/bspwm
 cp ~/.config/bspwm/sxhkdrc ./.config/bspwm
+# Emacs
+[[ ! -d ./.emacs.d ]] && mkdir ./.emacs.d
+cp ~/.emacs.d/init.el ./.emacs.d/init.el
 # Git
 cp ~/.gitconfig ./
 #MPD
@@ -25,8 +28,6 @@ touch ./.config/mpd/{database,log,pid,state,sticker.sql}
 #NCMPCPP
 [[ ! -d ./.ncmpcpp ]] && mkdir ./.ncmpcpp
 cp ~/.ncmpcpp/config ./.ncmpcpp
-# rTorrent
-cp ~/.rtorrent.rc ./
 # Scripts
 cp -R ~/.scripts ./
 # Vim

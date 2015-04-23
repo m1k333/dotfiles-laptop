@@ -55,7 +55,7 @@ set ignorecase
 set magic
 
 "Spell-checking
-set spelllang=en_us
+set spelllang=en_CA
 
 "Startup
 set shortmess=atI

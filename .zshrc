@@ -81,4 +81,3 @@ alias gksu='gksu -k'
 alias gksudo='gksudo -k'
 
 alias tmat='tmux attach'
-alias rtorrent='cd ~ && rtorrent'
