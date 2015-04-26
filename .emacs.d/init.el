@@ -3,11 +3,16 @@
 ;;; Since May 5th, 2014
 
 ;; Appearance
-(menu-bar-mode -1)
+(blink-cursor-mode -1)
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(setq custom-theme-directory "~/.emacs.d/themes")
-;; (load-theme 'molokai t)
+(setq custom-theme-directory "~/.emacs.d/themes/")
+(when (file-exists-p (concat custom-theme-directory "monokai-theme.el"))
+  (progn (setq monokai-distinct-fringe-background t)
+         (load-theme 'monokai t)))
+(when (eq system-type 'windows-nt)
+  (set-face-attribute 'default nil :font "Consolas-12"))
 
 ;; Apropos
 (setq apropos-do-all t)
@@ -28,6 +33,10 @@
 ;; Buffers
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+;; Calendar
+(require 'calendar)
+(calendar-set-date-style 'iso)
 
 ;; Case sensitivity
 (setq completion-ignore-case t
@@ -52,7 +61,6 @@
 (line-number-mode)
 (column-number-mode)
 (size-indication-mode)
-(display-battery-mode)
 (tooltip-mode -1)
 
 ;; Mouse
@@ -61,10 +69,11 @@
 
 ;; Packages
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
-(autoload 'typing-of-emacs "~/.emacs.d/vendor/typing-of-emacs.el" "The Typing of Emacs, a game." t)
+(autoload 'typing-of-emacs "~/.emacs.d/vendor/typing-of-emacs.el"
+  "The Typing of Emacs, a game." t)
 
 ;; Parentheses
 (setq show-paren-delay 0)
@@ -82,13 +91,14 @@
 
 ;; SLIME
 (setq inferior-lisp-program "/usr/bin/sbcl")
-  
+
 ;; Startup screen
-(setq inhibit-startup-screen t)
-(setq initial-scratch-message ";; *scratch*\n\n")
+(setq inhibit-startup-screen t
+      initial-scratch-message ";; *scratch*\n\n")
 
 ;; Syntax highlighting
-(setq font-lock-maximum-decoration t)
+(setq global-font-lock-mode t
+      font-lock-maximum-decoration t)
 
 ;; Tabs
 (setq-default indent-tabs-mode nil)
