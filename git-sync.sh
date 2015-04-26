@@ -18,6 +18,8 @@ cp ~/.config/bspwm/sxhkdrc ./.config/bspwm
 # Emacs
 [[ ! -d ./.emacs.d ]] && mkdir ./.emacs.d
 cp ~/.emacs.d/init.el ./.emacs.d/init.el
+cp ~/.emacs.d/keybindings.el ./.emacs.d/keybindings.el
+cp -R ~/.emacs.d/vendor ./.emacs.d/
 # Git
 cp ~/.gitconfig ./
 #MPD
@@ -28,8 +30,8 @@ touch ./.config/mpd/{database,log,pid,state,sticker.sql}
 #NCMPCPP
 [[ ! -d ./.ncmpcpp ]] && mkdir ./.ncmpcpp
 cp ~/.ncmpcpp/config ./.ncmpcpp
-# Scripts
-cp -R ~/.scripts ./
+#bin
+cp -R ~/bin ./
 # Vim
 cp ~/.vimrc ./
 # Xorg

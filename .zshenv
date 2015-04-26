@@ -1,7 +1,6 @@
 typeset -aU path
 path=(
-     $HOME/.scripts
-     $HOME/.bin
+     $HOME/bin
      $path
      )
 

@@ -1,28 +1,89 @@
-;;; init.el - Michael Richer - May 5th, 2014
+;;; $HOME/.emacs.d/init.el
+;;; By Michael Richer
+;;; Since May 5th, 2014
 
 ;; Appearance
 (menu-bar-mode -1)
-(when (fboundp 'tool-bar-mode) (tool-bar-mode 1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(setq custom-theme-directory "~/.emacs.d/themes")
+;; (load-theme 'molokai t)
 
 ;; Apropos
 (setq apropos-do-all t)
 
 ;; Backups
-(setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
+(defvar backup-dir (expand-file-name "~/.emacs.d/backup/"))
+(defvar autosave-dir (expand-file-name "~/.emacs.d/autosave/"))
+(setq backup-directory-alist (list (cons ".*" backup-dir))
+      auto-save-file-name-transforms `((".*" ,autosave-dir t))
+      auto-save-list-file-prefix autosave-dir
+      tramp-auto-save-directory autosave-dir
+      backup-by-copying t
+      version-control t
+      delete-old-versions t
+      kept-new-versions 10
+      kept-old-versions 5)
+
+;; Buffers
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+;; Case sensitivity
+(setq completion-ignore-case t
+      read-file-name-completion-ignore-case t
+      read-buffer-completion-ignore-case t
+      pcomplete-ignore-case t
+      eshell-cmpl-ignore-case t)
 
 ;; Commands
 (setq disabled-command-hook nil)
+
+;; Keybindings
+(load-file "~/.emacs.d/keybindings.el")
+
+;; Loading files
+(setq load-prefer-newer t)
+
+;; Mode line
+(setq display-time-24hr-format t
+      show-help-function nil)
+(display-time-mode)
+(line-number-mode)
+(column-number-mode)
+(size-indication-mode)
+(display-battery-mode)
+(tooltip-mode -1)
+
+;; Mouse
+(mouse-avoidance-mode 'banish)
+(setq mouse-yank-at-point t)
+
+;; Packages
+(require 'package)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-initialize)
+(autoload 'typing-of-emacs "~/.emacs.d/vendor/typing-of-emacs.el" "The Typing of Emacs, a game." t)
 
 ;; Parentheses
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
+;; Recentf
+(setq recentf-max-menu-items 25
+      recentf-save-file "~/.emacs.d/recentf-file")
+(recentf-mode 1)
+
 ;; Saveplace
 (require 'saveplace)
 (setq-default save-place t)
-(setq save-place-file (concat user-emacs-directory "places"))
+(setq save-place-file "~/.emacs.d/saveplace-file")
 
-;; Start-up
+;; SLIME
+(setq inferior-lisp-program "/usr/bin/sbcl")
+  
+;; Startup screen
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message ";; *scratch*\n\n")
 
@@ -32,5 +93,14 @@
 ;; Tabs
 (setq-default indent-tabs-mode nil)
 
-;;; Keybindings
-(global-set-key (kbd "M-/") 'hippie-expand)
+;; Username
+(setq user-full-name "Michael Richer"
+      user-mail-address "msricher1993@gmail.com")
+
+;; X windows options
+(setq x-select-enable-clipboard t
+      x-select-enable-primary t
+      save-interprogram-paste-before-kill t)
+
+;; Yes or no
+(fset 'yes-or-no-p 'y-or-n-p)
