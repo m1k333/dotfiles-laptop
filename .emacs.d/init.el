@@ -65,8 +65,8 @@
 (require 'unfill)
 
 ;; Flyspell
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+;; (add-hook 'text-mode-hook 'flyspell-mode)
+;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;; Font lock
 (setq global-font-lock-mode t)
@@ -74,7 +74,7 @@
 ;; Games
 (autoload 'typing-of-emacs "typing-of-emacs.el"
   "The Typing of Emacs, a game." t)
-      
+
 ;; Keybindings
 (load-file "~/.emacs.d/keybindings.el")
 
@@ -83,6 +83,11 @@
 
 ;; Loading files
 (setq load-prefer-newer t)
+
+;; Magit
+(when (featurep 'magit)
+  (require 'magit)
+  (setq magit-last-seen-setup-instructions "1.4.0"))
 
 ;; Mode line
 (setq display-time-24hr-format t
