@@ -19,7 +19,7 @@ cp ~/.config/bspwm/sxhkdrc ./.config/bspwm
 [[ ! -d ./.emacs.d ]] && mkdir ./.emacs.d
 cp ~/.emacs.d/init.el ./.emacs.d/init.el
 cp ~/.emacs.d/keybindings.el ./.emacs.d/keybindings.el
-cp -R ~/.emacs.d/vendor ./.emacs.d/
+cp -R ~/.emacs.d/elisp ./.emacs.d/
 cp -R ~/.emacs.d/themes ./.emacs.d/
 # Git
 cp ~/.gitconfig ./
