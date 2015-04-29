@@ -2,22 +2,34 @@
 ;;; By Michael Richer
 ;;; Since May 5th, 2014
 
+;;; Initialize stuff
+
+;; Paths
+(add-to-list 'load-path "~/.emacs.d/elisp")
+
+;; Packages
+(require 'package-populate)
+(setq package-required-list '(auctex magit slime))
+
+;;; Set up Emacs
+
 ;; Appearance
 (blink-cursor-mode -1)
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(menu-bar-mode -1)
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (setq custom-theme-directory "~/.emacs.d/themes/")
-(when (file-exists-p (concat custom-theme-directory "monokai-theme.el"))
-  (progn (setq monokai-distinct-fringe-background t)
-         (load-theme 'monokai t)))
-(when (eq system-type 'windows-nt)
-  (set-face-attribute 'default nil :font "Consolas-12"))
+(when (display-graphic-p)
+  (when (file-exists-p (concat custom-theme-directory "monokai-theme.el"))
+    (setq monokai-distinct-fringe-background t)
+    (load-theme 'monokai t))
+  (when (eq system-type 'windows-nt)
+    (set-face-attribute 'default nil :font "Consolas-12")))
 
 ;; Apropos
 (setq apropos-do-all t)
 
-;; Backups
+;; Backups and autosave
 (defvar backup-dir (expand-file-name "~/.emacs.d/backup/"))
 (defvar autosave-dir (expand-file-name "~/.emacs.d/autosave/"))
 (setq backup-directory-alist (list (cons ".*" backup-dir))
@@ -34,9 +46,10 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-;; Calendar
+;; Calendar and date stuff
 (require 'calendar)
 (calendar-set-date-style 'iso)
+(require 'insert-date)
 
 ;; Case sensitivity
 (setq completion-ignore-case t
@@ -48,8 +61,25 @@
 ;; Commands
 (setq disabled-command-hook nil)
 
+;; Fill
+(require 'unfill)
+
+;; Flyspell
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
+;; Font lock
+(setq global-font-lock-mode t)
+
+;; Games
+(autoload 'typing-of-emacs "typing-of-emacs.el"
+  "The Typing of Emacs, a game." t)
+      
 ;; Keybindings
 (load-file "~/.emacs.d/keybindings.el")
+
+;; LISP functionality
+(require 'eval-and-replace)
 
 ;; Loading files
 (setq load-prefer-newer t)
@@ -67,20 +97,13 @@
 (mouse-avoidance-mode 'banish)
 (setq mouse-yank-at-point t)
 
-;; Packages
-(require 'package)
-(add-to-list 'package-archives
-  '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
-(autoload 'typing-of-emacs "~/.emacs.d/vendor/typing-of-emacs.el"
-  "The Typing of Emacs, a game." t)
-
 ;; Parentheses
 (setq show-paren-delay 0)
 (show-paren-mode 1)
 
 ;; Recentf
-(setq recentf-max-menu-items 25
+(setq recentf-max-saved-items 50
+      recentf-max-menu-items recentf-max-saved-items
       recentf-save-file "~/.emacs.d/recentf-file")
 (recentf-mode 1)
 
@@ -91,17 +114,21 @@
 
 ;; SLIME
 (setq inferior-lisp-program "/usr/bin/sbcl")
+(when (featurep 'slime) (require 'slime))
 
 ;; Startup screen
 (setq inhibit-startup-screen t
       initial-scratch-message ";; *scratch*\n\n")
 
-;; Syntax highlighting
-(setq global-font-lock-mode t
-      font-lock-maximum-decoration t)
-
 ;; Tabs
 (setq-default indent-tabs-mode nil)
+
+;; Text mode
+(add-hook 'text-mode-hook 'auto-fill-mode)
+
+;; Unicode
+(prefer-coding-system 'utf-8)
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; Username
 (setq user-full-name "Michael Richer"
@@ -114,3 +141,7 @@
 
 ;; Yes or no
 (fset 'yes-or-no-p 'y-or-n-p)
+
+;;; Finalizing
+(switch-to-buffer "*scratch*")
+(delete-other-windows)
