@@ -3,22 +3,25 @@
 ;;; Since May 5th, 2014
 
 ;;; Initialize stuff
-
-;; Paths
 (add-to-list 'load-path "~/.emacs.d/elisp")
-
-;; Packages
 (require 'package-populate)
-(setq package-required-list '(auctex magit slime))
+(setq package-required-list
+      '(auctex expand-region multiple-cursors slime))
 
 ;;; Set up Emacs
 
 ;; Appearance
 (blink-cursor-mode -1)
+(show-paren-mode 1)
+(setq custom-theme-directory "~/.emacs.d/themes/"
+      echo-keystrokes 0.1
+      font-lock-maximum-decoration t
+      global-font-lock-mode t
+      show-paren-delay 0
+      visible-bell t)
 (menu-bar-mode -1)
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-(setq custom-theme-directory "~/.emacs.d/themes/")
 (when (display-graphic-p)
   (when (file-exists-p (concat custom-theme-directory "monokai-theme.el"))
     (setq monokai-distinct-fringe-background t)
@@ -42,14 +45,23 @@
       kept-new-versions 10
       kept-old-versions 5)
 
-;; Buffers
+;; Buffers and files
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(global-auto-revert-mode 1)
+(auto-compression-mode t)
+(setq uniquify-buffer-name-style 'forward
+      global-auto-revert-non-file-buffers t
+      auto-revert-verbose nil
+      load-prefer-newer t
+      recentf-max-saved-items 50
+      recentf-max-menu-items recentf-max-saved-items
+      recentf-save-file "~/.emacs.d/recentf-file")
+(recentf-mode 1)
 
 ;; Calendar and date stuff
 (require 'calendar)
-(calendar-set-date-style 'iso)
 (require 'insert-date)
+(calendar-set-date-style 'iso)
 
 ;; Case sensitivity
 (setq completion-ignore-case t
@@ -58,36 +70,21 @@
       pcomplete-ignore-case t
       eshell-cmpl-ignore-case t)
 
-;; Commands
+;; Commands/features/functions
 (setq disabled-command-hook nil)
-
-;; Fill
+(require 'expand-region)
+(require 'multiple-cursors)
 (require 'unfill)
-
-;; Flyspell
-;; (add-hook 'text-mode-hook 'flyspell-mode)
-;; (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-
-;; Font lock
-(setq global-font-lock-mode t)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; Games
 (autoload 'typing-of-emacs "typing-of-emacs.el"
   "The Typing of Emacs, a game." t)
 
-;; Keybindings
-(load-file "~/.emacs.d/keybindings.el")
-
-;; LISP functionality
-(require 'eval-and-replace)
-
-;; Loading files
-(setq load-prefer-newer t)
-
-;; Magit
-(when (featurep 'magit)
-  (require 'magit)
-  (setq magit-last-seen-setup-instructions "1.4.0"))
+;; Keybindings and mouse bindings
+(require 'keybindings)
+(mouse-avoidance-mode 'banish)
+(setq mouse-yank-at-point t)
 
 ;; Mode line
 (setq display-time-24hr-format t
@@ -98,28 +95,15 @@
 (size-indication-mode)
 (tooltip-mode -1)
 
-;; Mouse
-(mouse-avoidance-mode 'banish)
-(setq mouse-yank-at-point t)
-
-;; Parentheses
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-
-;; Recentf
-(setq recentf-max-saved-items 50
-      recentf-max-menu-items recentf-max-saved-items
-      recentf-save-file "~/.emacs.d/recentf-file")
-(recentf-mode 1)
-
 ;; Saveplace
 (require 'saveplace)
 (setq-default save-place t)
 (setq save-place-file "~/.emacs.d/saveplace-file")
 
 ;; SLIME
-(setq inferior-lisp-program "/usr/bin/sbcl")
-(when (featurep 'slime) (require 'slime))
+(require 'slime)
+(when (featurep 'slime)
+(setq inferior-lisp-program "/usr/bin/sbcl"))
 
 ;; Startup screen
 (setq inhibit-startup-screen t
@@ -127,9 +111,6 @@
 
 ;; Tabs
 (setq-default indent-tabs-mode nil)
-
-;; Text mode
-(add-hook 'text-mode-hook 'auto-fill-mode)
 
 ;; Unicode
 (prefer-coding-system 'utf-8)
@@ -144,9 +125,88 @@
       x-select-enable-primary t
       save-interprogram-paste-before-kill t)
 
-;; Yes or no
-(fset 'yes-or-no-p 'y-or-n-p)
+;;; Misc functions
 
-;;; Finalizing
-(switch-to-buffer "*scratch*")
-(delete-other-windows)
+(defun delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+
+(defun eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (backward-kill-sexp)
+  (condition-case nil
+      (prin1 (eval (read (current-kill 0)))
+             (current-buffer))
+    (error (message "Invalid expression")
+           (insert (current-kill 0)))))
+
+(defun goto-line-with-feedback ()
+  "Go to line interactively, while showing the user the line numbers."
+  (interactive)
+  (unwind-protect
+      (progn
+        (linum-mode 1)
+        (call-interactively 'goto-line))
+    (linum-mode -1)))
+
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(defun sudo-edit (&optional arg)
+  "Edit a file as root."
+  (interactive "p")
+  (if (or arg (not buffer-file-name))
+      (find-file
+        (concat "/sudo:root@localhost:" (read-file-name "File: ")))
+    (find-alternate-file
+      (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defun toggle-window-split ()
+  "Toggle a two-window-split layout between horizontal and vertical split."
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+             (next-win-buffer (window-buffer (next-window)))
+             (this-win-edges (window-edges (selected-window)))
+             (next-win-edges (window-edges (next-window)))
+             (this-win-2nd (not (and (<= (car this-win-edges)
+                                         (car next-win-edges))
+                                     (<= (cadr this-win-edges)
+                                         (cadr next-win-edges)))))
+             (splitter
+              (if (= (car this-win-edges)
+                     (car (window-edges (next-window))))
+                  'split-window-horizontally
+                'split-window-vertically)))
+        (delete-other-windows)
+        (let ((first-win (selected-window)))
+          (funcall splitter)
+          (if this-win-2nd (other-window 1))
+          (set-window-buffer (selected-window) this-win-buffer)
+          (set-window-buffer (next-window) next-win-buffer)
+          (select-window first-win)
+          (if this-win-2nd (other-window 1))))))
